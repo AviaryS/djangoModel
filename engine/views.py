@@ -24,27 +24,3 @@ def add_new(request):
 def all_posts(request):
     posts = Post.objects.all()
     return render(request, 'engine/all_posts.html', context={'posts': posts})
-
-
-def edit_new(request, id):
-    try:
-        post = Post.objects.get(id=id)
-        if request.method == "POST":
-            post.title = request.POST.get('title')
-            post.content = request.POST.get('content')
-            post.date = request.POST.get('date')
-            post.save()
-            return redirect('all')
-        else:
-            return render(request, 'engine/edit.html', context={'post': post})
-    except:
-        return HttpResponseNotFound('<h1>Post is not found</h1>')
-
-
-def delete_new(request, id):
-    try:
-        post = Post.objects.get(id=id)
-        post.delete()
-        return redirect('all')
-    except:
-        return HttpResponseNotFound('<h1>Post is not found</h1>')
